@@ -16,6 +16,7 @@ static const char EMPTY_SPACE = '.';
 static const char WALL = '#';
 static const char S = 'S';
 static const char G = 'G';
+static const char LASER = '+';
 
 /*
  *	Turrets
@@ -78,8 +79,8 @@ vector<maze_t> get_possible_mazes(const maze_t& original, const vector<point_t>&
 				case TURRET_UP:
 					{
 						int j = t.first - 1;
-						while(j >= 0 && maze_copy[i][t.second] == EMPTY_SPACE) {
-							maze_copy[j][t.second] = WALL;
+						while(j >= 0 && (maze_copy[i][t.second] == EMPTY_SPACE || maze_copy[i][t.second] == LASER)) {
+							maze_copy[j][t.second] = LASER;
 
 							j--;
 						}
@@ -89,8 +90,8 @@ vector<maze_t> get_possible_mazes(const maze_t& original, const vector<point_t>&
 				case TURRET_DOWN:
 					{
 						int j = t.first + 1;
-						while(j < maze_copy.size() && maze_copy[j][t.second] == EMPTY_SPACE) {
-							maze_copy[j][t.second] = WALL;
+						while(j < maze_copy.size() && (maze_copy[j][t.second] == EMPTY_SPACE || maze_copy[j][t.second] == LASER)) {
+							maze_copy[j][t.second] = LASER;
 
 							j++;
 						}
@@ -101,8 +102,8 @@ vector<maze_t> get_possible_mazes(const maze_t& original, const vector<point_t>&
 				case TURRET_RIGHT:
 					{
 						int j = t.second + 1;
-						while(j < maze_copy[0].size() && maze_copy[t.first][j] == EMPTY_SPACE) {
-							maze_copy[t.first][j] = WALL;
+						while(j < maze_copy[0].size() && (maze_copy[t.first][j] == EMPTY_SPACE || maze_copy[t.first][j] == LASER)) {
+							maze_copy[t.first][j] = LASER;
 
 							j++;
 						}
@@ -113,8 +114,8 @@ vector<maze_t> get_possible_mazes(const maze_t& original, const vector<point_t>&
 				case TURRET_LEFT:
 					{
 						int j = t.second - 1;
-						while(j >= 0 && maze_copy[t.first][j] == EMPTY_SPACE) {
-							maze_copy[t.first][j] = WALL;
+						while(j >= 0 && (maze_copy[t.first][j] == EMPTY_SPACE || maze_copy[t.first][j] == LASER)) {
+							maze_copy[t.first][j] = LASER;
 
 							j--;
 						}
@@ -140,6 +141,7 @@ int solve(maze_t& maze, point_t& start, point_t& end, const vector<point_t>& tur
 	 *	Pré-calcula todos os possiveis mazes
 	 */
 	auto possible_mazes = get_possible_mazes(maze, turrets);
+//	print_possible_mazes(possible_mazes);
 
 	while(!execution_queue.empty()) {
 		/*
