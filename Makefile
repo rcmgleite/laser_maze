@@ -1,5 +1,9 @@
 all:
-	g++ -std=c++11 lazer_maze.cpp -o lazer_maze
+	g++ -std=c++11 laser_maze.cpp -o laser_maze
+
+run:
+	g++ -std=c++11 laser_maze.cpp -o laser_maze
+	./laser_maze 
 
 clean:
-	rm -rf lazer_maze
+	rm -rf laser_maze
