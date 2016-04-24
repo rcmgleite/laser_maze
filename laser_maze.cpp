@@ -38,15 +38,18 @@ static map<char, char> next_face = {
 /*
  *	Helpers
  */
-void print_possible_mazes(const vector<maze_t>& pm) {
-	for(auto& m : pm) {
+void print_maze(const maze_t& m) {
 		for(int i = 0; i < m.size();  i++) {
 			for(int j = 0; j < m[i].size(); j++) {
 				cout << m[i][j] << " " ;
 			}
 			cout << endl;
 		}
+}
 
+void print_possible_mazes(const vector<maze_t>& pm) {
+	for(auto& m : pm) {
+		print_maze(m);
 		cout << endl << endl;
 	}
 }
@@ -73,47 +76,51 @@ vector<maze_t> get_possible_mazes(const maze_t& original, const vector<point_t>&
 
 			switch(nf) {
 				case TURRET_UP:
-					for(int j = t.first; j >= 0; j--) {
-						if(is_turret(maze_copy[j][t.second]))
-							continue;
-
-						if(maze_copy[j][t.second] == EMPTY_SPACE)
+					{
+						int j = t.first - 1;
+						while(j >= 0 && maze_copy[i][t.second] == EMPTY_SPACE) {
 							maze_copy[j][t.second] = WALL;
+
+							j--;
+						}
+						break;
 					}
-					break;
 
 				case TURRET_DOWN:
-					for(int j = t.first; j < maze_copy.size(); j++) {
-						if(is_turret(maze_copy[j][t.second]))
-							continue;
-
-						if(maze_copy[j][t.second] == EMPTY_SPACE)
+					{
+						int j = t.first + 1;
+						while(j < maze_copy.size() && maze_copy[j][t.second] == EMPTY_SPACE) {
 							maze_copy[j][t.second] = WALL;
-					}
 
-					break;
+							j++;
+						}
+
+						break;
+					}
 
 				case TURRET_RIGHT:
-					for(int j = t.second; j < maze_copy[0].size(); j++) {
-						if(is_turret(maze_copy[t.first][j]))
-							continue;
-
-						if(maze_copy[t.first][j] == EMPTY_SPACE)
+					{
+						int j = t.second + 1;
+						while(j < maze_copy[0].size() && maze_copy[t.first][j] == EMPTY_SPACE) {
 							maze_copy[t.first][j] = WALL;
-					}
 
-					break;
+							j++;
+						}
+
+						break;
+					}
 
 				case TURRET_LEFT:
-					for(int j = t.second; j >= 0; j--) {
-						if(is_turret(maze_copy[t.first][j]))
-							continue;
-
-						if(maze_copy[t.first][j] == EMPTY_SPACE)
+					{
+						int j = t.second - 1;
+						while(j >= 0 && maze_copy[t.first][j] == EMPTY_SPACE) {
 							maze_copy[t.first][j] = WALL;
-					}
 
-					break;
+							j--;
+						}
+
+						break;
+					}
 			}
 		}
 		possible_mazes.push_back(maze_copy);
