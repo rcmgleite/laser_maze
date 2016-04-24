@@ -1,1 +1,1 @@
-# Facebook hacker cup - laser maze[WIP]
+# Facebook hacker cup 2015 - laser maze

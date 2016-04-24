@@ -79,7 +79,7 @@ vector<maze_t> get_possible_mazes(const maze_t& original, const vector<point_t>&
 				case TURRET_UP:
 					{
 						int j = t.first - 1;
-						while(j >= 0 && (maze_copy[i][t.second] == EMPTY_SPACE || maze_copy[i][t.second] == LASER)) {
+						while(j >= 0 && (maze_copy[j][t.second] == EMPTY_SPACE || maze_copy[j][t.second] == LASER)) {
 							maze_copy[j][t.second] = LASER;
 
 							j--;
@@ -141,7 +141,6 @@ int solve(maze_t& maze, point_t& start, point_t& end, const vector<point_t>& tur
 	 *	Pré-calcula todos os possiveis mazes
 	 */
 	auto possible_mazes = get_possible_mazes(maze, turrets);
-//	print_possible_mazes(possible_mazes);
 
 	while(!execution_queue.empty()) {
 		/*
@@ -227,7 +226,7 @@ int main() {
 					end.first = i;
 					end.second = j;
 					maze[i][j] = EMPTY_SPACE;
-				} else if(maze[i][j] == TURRET_UP || maze[i][j] == TURRET_RIGHT || maze[i][j] == TURRET_DOWN || maze[i][j] == TURRET_LEFT) {
+				} else if(is_turret(maze[i][j])) {
 					turrets.push_back({i, j});
 				}
 			}
